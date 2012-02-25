@@ -1,0 +1,17 @@
+{
+  "author": "Greg Miell <greg+npm@greg-net.co.uk>",
+  "name": "forms-mongoose",
+  "description": "Generate forms from mongoose models",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.6.11"
+  },
+  "dependencies": {
+    "forms": "0.1.0"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
