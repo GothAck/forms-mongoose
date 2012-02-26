@@ -3,7 +3,7 @@
   "name": "forms-mongoose",
   "description": "Generate forms from mongoose models",
   "version": "0.0.1",
-  "main": "mongoose_forms.js",
+  "main": "index.js",
   "repository": {
     "url": ""
   },
