@@ -1,10 +1,12 @@
 ### Forms-mongoose allows auto-generation of forms from your Mongoose models
 
+http://search.npmjs.org/#/forms-mongoose
+
 ### Example
 
 #### Mongoose
 
-```
+```javascript
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Email = mongoose.SchemaTypes.Email;
@@ -33,7 +35,7 @@ var PersonModel = mongoose.model('Person', PersonSchema);
 
 #### Convert Mongoose Model to Forms Object
 
-```
+```javascript
 var forms = require('forms-mongoose');
 
 var form = forms.create(PersonModel, 'new'); // Creates a new form for a "new" Person
