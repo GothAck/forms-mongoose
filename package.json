@@ -1,12 +1,19 @@
 {
-  "author": "Greg Miell <greg+npm@greg-net.co.uk>",
+  "author": "Greg Miell <greg@greg-net.co.uk>",
   "name": "forms-mongoose",
-  "description": "Generate forms from mongoose models",
+  "homepage": "https://github.com/GothAck/forms-mongoose",
+  "description": "Generate forms from Mongoose Models",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "./index",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "https://GothAck@github.com/GothAck/forms-mongoose.git"
   },
+  "keywords": [
+    "mongoose",
+    "forms",
+    "mongo"
+  ],
   "engines": {
     "node": "~0.6.11"
   },
