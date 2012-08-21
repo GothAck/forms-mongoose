@@ -7,7 +7,8 @@ var forms = require('forms')
 _fields = {
   'String': 'string',
   'Password': 'password',
-  'Email': 'email'
+  'Email': 'email',
+  'Date': 'string'
 }
 
 function convert_mongoose_field(mongoose_field) {
