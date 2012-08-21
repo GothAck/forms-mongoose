@@ -35,7 +35,7 @@ function get_field(path, form_name) {
     throw new Error('Model does not have forms.type, probably on a virtual', path);
   var _fields = {}
   _options = _.defaults(_options, {
-    required: path.options.required || path.options.unique,
+    required: ( (typeof _options.required === 'undefined') ? (path.options.required || path.options.unique) : _options.required),
     validators: []
   });
   if (path.validators)
