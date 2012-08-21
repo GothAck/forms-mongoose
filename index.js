@@ -23,7 +23,7 @@ function get_field(path, form_name) {
   if (!(forms[form_name] || forms['all']))
     return null;
 
-  var _options = _.extend({}, forms['all'], forms[form_name]);
+  var _options = _.extend({}, forms._all, forms.all, forms[form_name]);
 
   if (_options.type)
     _field = (typeof _options.type === 'string') ? fields[_options.type] : _options.type
