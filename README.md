@@ -21,7 +21,7 @@ var PersonSchema = new Schema({
   name: {
     first: { type: String, required: true, forms: {
       new: {},
-      edit {}
+      edit: {}
     }},
     last: { type: String, required: true, forms: {
       new: {},
