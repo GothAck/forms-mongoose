@@ -32,32 +32,52 @@ function get_field(path, form_name) {
   if (!_field)
     throw new Error('Model does not have forms.type, probably on a virtual', path);
   var _fields = {}
-  _fields[path.path] = _field(_options = _.defaults(_options, {
-    required: path.options.required || path.options.unique
-  }));
-  if (_options.confirm)
-    _fields[path.path + '.confirm'] = _field(_.extend({}, _options, {
-      validators: [validators.matchField(path.path)]
-    }));
-  if(_options.existing)
-    _fields[path.path + '.existing'] = _field(_.extend({}, _options, {
-      validators: [function (form, field, callback) {
-        if (!form.existing)
-          return callback('Server error');
-        var existing = form.existing[path.path];
-        if (typeof existing === 'function') {
-          existing(field.data, function (err, result) {
-            if (err) return callback('Server error: ' + err);
-            if (!result) return callback('Does not match existing value!!!');
-            callback();
-          });
-        } else if (form.existing[field.name] != field.data) {
-            return callback('Does not match existing value!');
-        } else {
+  _options = _.defaults(_options, {
+    required: path.options.required || path.options.unique,
+    validators: []
+  });
+  if (path.validators)
+    for (var i = path.options.required ? 1 : 0; i < path.validators.length; i ++)
+      (function (validator) {
+        _options.validators.push(function (form, field, callback) {
+          callback(validator[0](field.value) ? undefined : validator[1]);
+        });
+      })(path.validators[i]);
+  _fields[path.path] = null;
+  if (_options.confirm) {
+    var _options_confirm = _.clone(_options);
+    _options_confirm.validators = _options.validators.slice(0)
+    _options_confirm.validators.unshift(validators.matchField(path.path));
+    _fields[path.path + '.confirm'] = _field(_options_confirm);
+  }
+  if(_options.existing) {
+    var _options_existing = _.clone(_options);
+    _options_existing.validators = [function (form, field, callback) {
+      if (!form.existing)
+        return callback('Server error');
+      var existing = form.existing[path.path];
+      if (typeof existing === 'function') {
+        existing(field.data, function (err, result) {
+          if (err) return callback('Server error: ' + err);
+          if (!result) return callback('Does not match existing value!!!');
           callback();
-        }
-      }]
-    }));
+        });
+      } else if (form.existing[field.name] != field.data) {
+          return callback('Does not match existing value!');
+      } else {
+        callback();
+      }
+    }];
+    _fields[path.path + '.existing'] = _field(_options_existing);
+  }
+  _options.validators.unshift(function (form, field, callback) {
+    if (field.data && _options.confirm)
+      form.fields[path.path + '.confirm'].required = true;
+    if (field.data && _options.existing)
+      form.fields[path.path + '.existing'].required = true;
+    callback();
+  });
+  _fields[path.path] = _field(_options);
   return _fields;
 }
 
