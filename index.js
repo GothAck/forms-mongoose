@@ -20,7 +20,9 @@ function get_field(path, form_name) {
   if (!(path.options && path.options.forms))
     return null;
   var forms = path.options.forms;
-  if (!(forms[form_name] || forms['all']))
+  if (! (
+    forms[form_name] || forms['all'] || (form_name === '*' && forms._all)
+  ))
     return null;
 
   var _options = _.extend({}, forms._all, forms.all, forms[form_name]);
