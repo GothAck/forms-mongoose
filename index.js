@@ -8,7 +8,8 @@ var _fields = {
   'String': 'string',
   'Password': 'password',
   'Email': 'email',
-  'Date': 'string'
+  'Date': 'string',
+  'Boolean': 'boolean'
 }
 
 function convert_mongoose_field(mongoose_field) {
