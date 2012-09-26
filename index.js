@@ -15,17 +15,29 @@ function convert_mongoose_field(mongoose_field) {
   return fields[_fields[mongoose_field] || fields.string];
 }
 
-function get_field(path, form_name) {
+function get_field(path, form_name, form_category) {
   var _field = null;
   if (!(path.options && path.options.forms))
     return null;
   var forms = path.options.forms;
   if (! (
-    forms[form_name] || forms['all'] || (form_name === '*' && forms._all)
+    forms[form_name] ||
+    (forms['all'] && !forms[form_category]) ||
+    (forms[form_category] && forms[form_category].all) ||
+    (forms[form_category] && forms[form_category][form_name]) ||
+    (form_name === '*' && forms._all)
   ))
     return null;
 
-  var _options = _.extend({}, forms._all, forms.all, forms[form_name]);
+  var _options = _.extend(
+      {}
+    , forms._all
+    , forms.all
+    , forms[form_name]
+    , form_category && forms[form_category] && forms[form_category]._all
+    , form_category && forms[form_category] && forms[form_category].all
+    , form_category && forms[form_category] && forms[form_category][form_name]
+  );
 
   if (_options.type)
     _field = (typeof _options.type === 'string') ? fields[_options.type] : _options.type
@@ -83,21 +95,21 @@ function get_field(path, form_name) {
   return _fields;
 }
 
-module.exports.create = function (model, extra_params, form_name) {
+module.exports.create = function (model, extra_params, form_name, form_category) {
   var schema = model.schema
     , paths = schema.paths
     , virtuals = schema.virtuals
     , params = {};
   for (var pathName in paths) {
     var path = paths[pathName];
-    var field = get_field(path, form_name);
+    var field = get_field(path, form_name, form_category);
     if (field)
       params = _.extend(params, field);
   }
   for (var virtName in virtuals) {
     var virt = virtuals[virtName];
     virt.path = virtName;
-    var field = get_field(virt, form_name);
+    var field = get_field(virt, form_name, form_category);
     if (field)
       params = _.extend(params, field);
   }
