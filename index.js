@@ -4,7 +4,7 @@ var forms = require('forms')
   , validators = forms.validators
   , _ = require('underscore');
 
-_fields = {
+var _fields = {
   'String': 'string',
   'Password': 'password',
   'Email': 'email',
