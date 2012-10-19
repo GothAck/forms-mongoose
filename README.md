@@ -10,6 +10,13 @@ http://search.npmjs.org/#/forms-mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Email = mongoose.SchemaTypes.Email;
+var forms = require('forms-mongoose');
+
+var AddressSchema = new Schema({
+  category: {type: String, required: true, default: 'home', forms: {all:{}}},
+  lines: {type: String, required: true, forms:{all:{widget:forms.widgets.textarea({rows:3})}}},
+  city: {type: String, required: true}  
+});
 
 var PersonSchema = new Schema({
   email: { type: Email, unique: true, forms: {
@@ -27,7 +34,8 @@ var PersonSchema = new Schema({
       new: {},
       edit: {}
     }}
-  }
+  },
+  address: [AddressSchema]
 });
 
 var PersonModel = mongoose.model('Person', PersonSchema);
@@ -44,6 +52,16 @@ var form = forms.create(PersonModel, 'new'); // Creates a new form for a "new" P
 
 console.log (form.toHTML());
 // Note toHTML does not include the <form> tags, this is to allow flexibility.
+
+//optionally create some static methods in the schema
+
+PersonSchema.statics.createForm = function (extra) {
+  return forms.create(this, extra);
+}
+
+PersonSchema.statics.createAddressForm = function (extra) {
+  return forms.create(this.schema.paths.address, extra);
+}
 ```
 
 ### Requirements
