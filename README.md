@@ -42,7 +42,7 @@ var form = forms.create(PersonModel, 'new'); // Creates a new form for a "new" P
 
 // Use the form object as you would with Forms
 
-console.log (forms.toHTML());
+console.log (form.toHTML());
 // Note toHTML does not include the <form> tags, this is to allow flexibility.
 ```
 
