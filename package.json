@@ -3,7 +3,7 @@
   "name": "forms-mongoose",
   "homepage": "https://github.com/GothAck/forms-mongoose",
   "description": "Generate forms from Mongoose Models",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./index",
   "repository": {
     "type": "git",
