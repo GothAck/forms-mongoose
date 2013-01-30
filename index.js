@@ -6,6 +6,7 @@ var forms = require('forms')
 
 var _fields = {
   'String': 'string',
+  'Number': 'number',
   'Password': 'password',
   'Email': 'email',
   'Date': 'string',
@@ -39,13 +40,15 @@ function get_field(path, form_name, form_category) {
     , form_category && forms[form_category] && forms[form_category].all
     , form_category && forms[form_category] && forms[form_category][form_name]
   );
-
+  
   if (_options.type)
     _field = (typeof _options.type === 'string') ? fields[_options.type] : _options.type
   if (!_field)
     _field = convert_mongoose_field( path.options.type ? path.options.type.name : path.instance );
   if (!_field)
     throw new Error('Model does not have forms.type, probably on a virtual', path);
+
+
   var _fields = {}
   _options = _.defaults(_options, {
     required: ( (typeof _options.required === 'undefined') ? (path.options.required || path.options.unique) : _options.required),
