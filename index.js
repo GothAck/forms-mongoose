@@ -119,7 +119,7 @@ module.exports.create = function (model, extra_params, form_name, form_category)
   }
   params = _.extend({}, params, extra_params);
   var form = forms.create(params);
-  return forms.create(params);
+  return form;
 }
 
 module.exports.fields = fields;
