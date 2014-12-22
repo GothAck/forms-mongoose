@@ -1,6 +1,6 @@
 ### Forms-mongoose allows auto-generation of forms from your Mongoose models
 
-http://search.npmjs.org/#/forms-mongoose
+https://www.npmjs.com/package/forms-mongoose
 
 ### Example
 
