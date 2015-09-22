@@ -17,7 +17,7 @@ function convert_mongoose_field(mongoose_field) {
   return fields[_fields[mongoose_field] || fields.string];
 }
 
-function get_field(path, form_name, form_category) {
+function get_field(path, form_name, form_category, object) {
   var _field = null;
   if (!(path.options && path.options.forms))
     return null;
@@ -62,6 +62,9 @@ function get_field(path, form_name, form_category) {
         });
       })(path.validators[i]);
   _fields[path.path] = null;
+	if( object && object.get(path.path) ){
+		_options.value = object.get(path.path);
+	}
   if (_options.confirm) {
     var _options_confirm = _.clone(_options);
     _options_confirm.validators = _options.validators.slice(0)
@@ -99,21 +102,21 @@ function get_field(path, form_name, form_category) {
   return _fields;
 }
 
-module.exports.create = function (model, extra_params, form_name, form_category) {
+module.exports.create = function (model, extra_params, form_name, form_category, object) {
   var schema = model.schema
     , paths = schema.paths
     , virtuals = schema.virtuals
     , params = {};
   for (var pathName in paths) {
     var path = paths[pathName];
-    var field = get_field(path, form_name, form_category);
+    var field = get_field(path, form_name, form_category, object);
     if (field)
       params = _.extend(params, field);
   }
   for (var virtName in virtuals) {
     var virt = virtuals[virtName];
     virt.path = virtName;
-    var field = get_field(virt, form_name, form_category);
+    var field = get_field(virt, form_name, form_category, object);
     if (field)
       params = _.extend(params, field);
   }
@@ -130,3 +133,4 @@ module.exports.createForm = function (params, extra_params) {
   var form = forms.create(params)
   return form;
 }
+
